@@ -1,6 +1,7 @@
 import { Box, Flex, Heading } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import NextLink from 'next/link'
+import ColorModeButton from '../components/color-mode-button'
 
 const Home: NextPage = () => {
   return (
@@ -23,6 +24,7 @@ const Home: NextPage = () => {
       >
         <Heading fontSize="xl">Yuu Funyu</Heading>
       </Box>
+      <ColorModeButton />
     </Flex>
   )
 }

@@ -5,7 +5,7 @@ import NextLink from 'next/link'
 
 export default function GithubButton() {
   return (
-    <Button>
+    <Button variant="ghost">
       <NextLink href={'https://github.com/mfunyu'} passHref>
         <Link isExternal>
           <Icon as={GithubIcon} />

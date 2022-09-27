@@ -5,14 +5,12 @@ import NextLink from 'next/link'
 
 export default function GithubButton() {
   return (
-    <header>
-      <Button>
-        <NextLink href={'https://github.com/mfunyu'} passHref>
-          <Link isExternal>
-            <Icon as={GithubIcon} />
-          </Link>
-        </NextLink>
-      </Button>
-    </header>
+    <Button>
+      <NextLink href={'https://github.com/mfunyu'} passHref>
+        <Link isExternal>
+          <Icon as={GithubIcon} />
+        </Link>
+      </NextLink>
+    </Button>
   )
 }

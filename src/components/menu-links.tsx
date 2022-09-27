@@ -26,7 +26,6 @@ const MenuLinks = () => {
       <HStack spacing={2}>
         <MenuItem to="/works">Works</MenuItem>
         <MenuItem to="/about">About</MenuItem>
-        <MenuItem to="/contact">Contact</MenuItem>
         <ColorModeButton />
         <GithubButton />
       </HStack>

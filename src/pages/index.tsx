@@ -22,7 +22,7 @@ const Home: NextPage = () => {
           borderWidth="1px"
           _hover={{ borderColor: '#00BABC' }}
         >
-          <Heading fontSize="xl">Hello World!</Heading>
+          <Heading fontSize="xl">Hello World?</Heading>
         </Box>
       </Flex>
     </Layout>

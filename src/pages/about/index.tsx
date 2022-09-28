@@ -1,4 +1,5 @@
 import { Box, Center, Flex, Heading } from '@chakra-ui/react'
+import History from '../../components/history'
 import Layout from '../../components/layout'
 import Timeline from '../../components/timeline'
 
@@ -7,9 +8,6 @@ const About = () => {
     <Layout>
       <Flex>
         <Box w="100%" p={4}>
-          <Heading as="h2" size="lg" p={4}>
-            Trajectory
-          </Heading>
           <Flex px={10} py={8} w="100%">
             <Box flex="1">
               <Center>
@@ -17,8 +15,8 @@ const About = () => {
               </Center>
             </Box>
           </Flex>
-          <Box flex="1">
-            <Center>WIP</Center>
+          <Box px={10} flex="1">
+            <History />
           </Box>
         </Box>
       </Flex>

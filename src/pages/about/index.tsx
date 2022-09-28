@@ -14,8 +14,8 @@ import { useState } from 'react'
 import Layout from '../../components/layout'
 
 const labelStyles = {
-  mt: '2',
-  ml: '-70',
+  mt: '20',
+  ml: '-5',
   fontSize: 'm',
 }
 
@@ -27,12 +27,11 @@ const Timeline = () => {
       aria-label="timeline"
       colorScheme={useColorModeValue('blackAlpha', 'whiteAlpha')}
       defaultValue={2022}
-      orientation="vertical"
       minH="32"
       onChange={(val) => setSliderValue(val)}
       min={2019}
       max={2022}
-      step={1}
+      step={0.5}
       size="lg"
     >
       <SliderMark value={2019} {...labelStyles}>
@@ -48,9 +47,9 @@ const Timeline = () => {
         mr="-50"
         w="12"
       >
-        {sliderValue}
+        {Math.floor(sliderValue)}
       </SliderMark>
-      <SliderTrack>
+      <SliderTrack h="10px">
         <SliderFilledTrack />
       </SliderTrack>
       <SliderThumb boxSize={10}>
@@ -68,14 +67,16 @@ const About = () => {
           <Heading as="h2" size="lg" p={4}>
             Trajectory
           </Heading>
-          <Flex p={8} h="500px">
-            <Center w="150px">
-              <Timeline />
-            </Center>
+          <Flex px={10} py={8} w="100%">
             <Box flex="1">
-              <Center>WIP</Center>
+              <Center>
+                <Timeline />
+              </Center>
             </Box>
           </Flex>
+          <Box flex="1">
+            <Center>WIP</Center>
+          </Box>
         </Box>
       </Flex>
     </Layout>

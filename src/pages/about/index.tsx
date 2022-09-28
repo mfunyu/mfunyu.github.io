@@ -1,63 +1,6 @@
-import {
-  Box,
-  Center,
-  Flex,
-  Heading,
-  Slider,
-  SliderFilledTrack,
-  SliderMark,
-  SliderThumb,
-  SliderTrack,
-  useColorModeValue,
-} from '@chakra-ui/react'
-import { useState } from 'react'
+import { Box, Center, Flex, Heading } from '@chakra-ui/react'
 import Layout from '../../components/layout'
-
-const labelStyles = {
-  mt: '20',
-  ml: '-5',
-  fontSize: 'm',
-}
-
-const Timeline = () => {
-  const [sliderValue, setSliderValue] = useState(2022)
-
-  return (
-    <Slider
-      aria-label="timeline"
-      colorScheme={useColorModeValue('blackAlpha', 'whiteAlpha')}
-      defaultValue={2022}
-      minH="32"
-      onChange={(val) => setSliderValue(val)}
-      min={2019}
-      max={2022}
-      step={0.5}
-      size="lg"
-    >
-      <SliderMark value={2019} {...labelStyles}>
-        2019
-      </SliderMark>
-      <SliderMark value={2020} {...labelStyles}>
-        2020
-      </SliderMark>
-      <SliderMark
-        value={sliderValue}
-        textAlign="center"
-        mt="-10"
-        mr="-50"
-        w="12"
-      >
-        {Math.floor(sliderValue)}
-      </SliderMark>
-      <SliderTrack h="10px">
-        <SliderFilledTrack />
-      </SliderTrack>
-      <SliderThumb boxSize={10}>
-        <Box>🚀</Box>
-      </SliderThumb>
-    </Slider>
-  )
-}
+import Timeline from '../../components/timeline'
 
 const About = () => {
   return (

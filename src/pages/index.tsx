@@ -20,7 +20,7 @@ const Home: NextPage = () => {
           py={4}
           shadow="sm"
           borderWidth="1px"
-          _hover={{ borderColor: '#00BABC' }}
+          _hover={{ borderColor: 'fortyTwo' }}
         >
           <Heading fontSize="xl">Hello World?</Heading>
         </Box>

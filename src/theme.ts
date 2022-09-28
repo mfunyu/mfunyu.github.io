@@ -40,6 +40,7 @@ const theme = extendTheme({
   },
   colors: {
     black: '#16161D',
+    fortyTwo: '#00BABC',
   },
   fonts,
 })

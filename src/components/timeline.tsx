@@ -15,8 +15,7 @@ import {
 import { useState } from 'react'
 
 const labelStyles = {
-  mt: '10',
-  ml: '-4',
+  mb: '-2',
   fontSize: 'sm',
 }
 
@@ -30,18 +29,19 @@ const TimelineUI = ({ minYear, maxYear }: Props) => {
   const [showTooltip, setShowTooltip] = useState(false)
 
   let slideMarks = []
-  const color = useColorModeValue('blackAlpha.600', 'whiteAlpha.600')
+  const color = useColorModeValue('blackAlpha.600', 'whiteAlpha.500')
   for (let i = minYear; i <= maxYear; i++) {
     slideMarks.push(
       <SliderMark value={i} {...labelStyles} color={color}>
-        <Box>
-          <Center>
-            |<br />
-          </Center>
-          {i}
-        </Box>
+        <Box whiteSpace="nowrap">ー {i}</Box>
       </SliderMark>
     )
+  }
+
+  const valueToDate = (value: number) => {
+    const year = Math.floor(sliderValue)
+    const months = (sliderValue - year) * 12 + 1
+    return year + '/' + months
   }
 
   return (
@@ -55,6 +55,7 @@ const TimelineUI = ({ minYear, maxYear }: Props) => {
       onMouseLeave={() => setShowTooltip(false)}
       min={minYear}
       max={maxYear}
+      orientation="vertical"
       step={3 / 12}
       size="lg"
     >
@@ -63,10 +64,10 @@ const TimelineUI = ({ minYear, maxYear }: Props) => {
         hasArrow
         bg={useColorModeValue('blackAlpha.800', 'whiteAlpha.800')}
         colorScheme={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
-        placement="top"
+        placement="right"
         mb="5"
         isOpen={showTooltip}
-        label={`${Math.floor(sliderValue)}`}
+        label={valueToDate(sliderValue)}
       >
         <SliderThumb boxSize={10} bg="none">
           <Box>

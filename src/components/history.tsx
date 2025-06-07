@@ -7,16 +7,19 @@ import {
   Box,
   Progress,
   Stack,
+  Text,
+  Badge,
 } from '@chakra-ui/react'
-import { historyData, HistoryData } from '../data/historyData'
+import { historyData } from '../data/historyData'
 
 type HistoryItemProps = {
   title: string
   progress: number
   description: string
+  isCompleted: boolean
 }
 
-const HistoryItem = ({ title, progress, description }: HistoryItemProps) => {
+const HistoryItem = ({ title, progress, description, isCompleted }: HistoryItemProps) => {
   return (
     <AccordionItem>
       <h2>
@@ -24,10 +27,24 @@ const HistoryItem = ({ title, progress, description }: HistoryItemProps) => {
           <Box flex="1" textAlign="left">
             <Stack spacing={5}>
               <Box flex="1" textAlign="left">
-                {title}
+                <Stack direction="row" spacing={2} align="center">
+                  <Text>{title}</Text>
+                  <Badge 
+                    colorScheme={isCompleted ? "green" : "blue"}
+                    variant="subtle"
+                    fontSize="xs"
+                  >
+                    {isCompleted ? "Completed" : "In Progress"}
+                  </Badge>
+                </Stack>
               </Box>
               <Box pb={4} flex="1" textAlign="left">
-                <Progress size="xs" value={progress} isAnimated />
+                <Progress 
+                  size="xs" 
+                  value={progress} 
+                  isAnimated 
+                  colorScheme={isCompleted ? "green" : "blue"}
+                />
               </Box>
             </Stack>
           </Box>
@@ -46,7 +63,8 @@ const calculateProgress = (
   startYear: number,
   startMonth: number,
   endYear: number,
-  endMonth: number
+  endMonth: number,
+  isCompleted: boolean
 ): number => {
   // Convert dates to decimal years for easier calculation
   const currentDecimal = currentYear
@@ -54,7 +72,15 @@ const calculateProgress = (
   const endDecimal = endYear + (endMonth - 1) / 12
   
   if (currentDecimal < startDecimal) return 0
-  if (currentDecimal >= endDecimal) return 100
+  
+  // For completed items, always show 100% if we're past the end date
+  if (isCompleted && currentDecimal >= endDecimal) return 100
+  
+  // For non-completed items, don't show 100% even if past end date
+  if (!isCompleted && currentDecimal >= endDecimal) {
+    // Show high progress but not 100% to indicate it's still ongoing
+    return 90
+  }
   
   const progress = ((currentDecimal - startDecimal) / (endDecimal - startDecimal)) * 100
   return Math.round(progress)
@@ -76,9 +102,11 @@ const History = ({ currentYear }: HistoryProps) => {
             item.startYear,
             item.startMonth,
             item.endYear,
-            item.endMonth
+            item.endMonth,
+            item.isCompleted
           )}
           description={item.description}
+          isCompleted={item.isCompleted}
         />
       ))}
     </Accordion>

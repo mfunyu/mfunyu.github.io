@@ -4,6 +4,7 @@ export type HistoryData = {
   startMonth: number
   endYear: number
   endMonth: number
+  isCompleted: boolean
   description: string
 }
 
@@ -14,6 +15,7 @@ export const historyData: HistoryData[] = [
     startMonth: 6,
     endYear: 2023,
     endMonth: 6,
+    isCompleted: true,
     description: 'Completed comprehensive software engineering education at 42Tokyo through hands-on project-based learning. Mastered C programming, Unix systems, algorithms, and data structures. Developed problem-solving skills through peer-to-peer collaboration and self-directed learning in a gamified environment.'
   },
   {
@@ -22,7 +24,8 @@ export const historyData: HistoryData[] = [
     startMonth: 7,
     endYear: 2025,
     endMonth: 3,
-    description: 'Completed my studies at 42Lyon, a tuition-free computer programming school. Developed strong skills in C/C++, system administration, and collaborative problem-solving through peer-to-peer learning methodology.'
+    isCompleted: false,
+    description: 'Currently pursuing studies at 42Lyon, a tuition-free computer programming school. Developing advanced skills in C/C++, system administration, and collaborative problem-solving through peer-to-peer learning methodology.'
   },
   {
     title: 'Internship',
@@ -30,6 +33,7 @@ export const historyData: HistoryData[] = [
     startMonth: 9,
     endYear: 2025,
     endMonth: 3,
+    isCompleted: true,
     description: 'Gained practical experience in software development through various internship opportunities. Worked on real-world projects, collaborated with development teams, and applied theoretical knowledge to solve business challenges.'
   }
 ]

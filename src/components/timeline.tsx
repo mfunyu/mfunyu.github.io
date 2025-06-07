@@ -23,17 +23,18 @@ const labelStyles = {
 type Props = {
   minYear: number
   maxYear: number
+  currentYear: number
+  onYearChange: (year: number) => void
 }
 
-const TimelineUI = ({ minYear, maxYear }: Props) => {
-  const [sliderValue, setSliderValue] = useState(maxYear)
+const TimelineUI = ({ minYear, maxYear, currentYear, onYearChange }: Props) => {
   const [showTooltip, setShowTooltip] = useState(false)
 
   let slideMarks = []
   const color = useColorModeValue('blackAlpha.600', 'whiteAlpha.600')
   for (let i = minYear; i <= maxYear; i++) {
     slideMarks.push(
-      <SliderMark value={i} {...labelStyles} color={color}>
+      <SliderMark key={i} value={i} {...labelStyles} color={color}>
         <Box>
           <Center>
             |<br />
@@ -48,9 +49,9 @@ const TimelineUI = ({ minYear, maxYear }: Props) => {
     <Slider
       aria-label="timeline"
       colorScheme={useColorModeValue('blackAlpha', 'whiteAlpha')}
-      defaultValue={maxYear}
+      value={currentYear}
       minH="32"
-      onChange={(val) => setSliderValue(val)}
+      onChange={onYearChange}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
       min={minYear}
@@ -66,7 +67,7 @@ const TimelineUI = ({ minYear, maxYear }: Props) => {
         placement="top"
         mb="5"
         isOpen={showTooltip}
-        label={`${Math.floor(sliderValue)}`}
+        label={`${Math.floor(currentYear)}`}
       >
         <SliderThumb boxSize={10} bg="none">
           <Box>
@@ -81,12 +82,17 @@ const TimelineUI = ({ minYear, maxYear }: Props) => {
   )
 }
 
-const Timeline = () => {
+type TimelineProps = {
+  currentYear: number
+  onYearChange: (year: number) => void
+}
+
+const Timeline = ({ currentYear, onYearChange }: TimelineProps) => {
   const startYear = 2019
-  const currentYear = new Date().getFullYear()
+  const currentYearActual = new Date().getFullYear()
   const currentMonth = new Date().getMonth()
-  const yearValue = currentYear + (1 / 12) * currentMonth
-  return <TimelineUI minYear={startYear} maxYear={yearValue} />
+  const maxYear = currentYearActual + (1 / 12) * currentMonth
+  return <TimelineUI minYear={startYear} maxYear={maxYear} currentYear={currentYear} onYearChange={onYearChange} />
 }
 
 export default Timeline

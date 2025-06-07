@@ -9,7 +9,13 @@ import {
   Stack,
 } from '@chakra-ui/react'
 
-const HistoryItem = () => {
+type HistoryItemProps = {
+  title: string
+  progress: number
+  description: string
+}
+
+const HistoryItem = ({ title, progress, description }: HistoryItemProps) => {
   return (
     <AccordionItem>
       <h2>
@@ -17,10 +23,10 @@ const HistoryItem = () => {
           <Box flex="1" textAlign="left">
             <Stack spacing={5}>
               <Box flex="1" textAlign="left">
-                42Tokyo
+                {title}
               </Box>
               <Box pb={4} flex="1" textAlign="left">
-                <Progress size="xs" value={80} isAnimated />
+                <Progress size="xs" value={progress} isAnimated />
               </Box>
             </Stack>
           </Box>
@@ -28,19 +34,41 @@ const HistoryItem = () => {
         </AccordionButton>
       </h2>
       <AccordionPanel pb={4}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
+        {description}
       </AccordionPanel>
     </AccordionItem>
   )
 }
 
 const History = () => {
+  const historyData = [
+    {
+      title: '42Tokyo',
+      progress: 100,
+      description: 'Completed comprehensive software engineering education at 42Tokyo through hands-on project-based learning. Mastered C programming, Unix systems, algorithms, and data structures. Developed problem-solving skills through peer-to-peer collaboration and self-directed learning in a gamified environment.'
+    },
+    {
+      title: '42Lyon',
+      progress: 100,
+      description: 'Completed my studies at 42Lyon, a tuition-free computer programming school. Developed strong skills in C/C++, system administration, and collaborative problem-solving through peer-to-peer learning methodology.'
+    },
+    {
+      title: 'Internship',
+      progress: 95,
+      description: 'Gained practical experience in software development through various internship opportunities. Worked on real-world projects, collaborated with development teams, and applied theoretical knowledge to solve business challenges.'
+    }
+  ]
+
   return (
     <Accordion allowToggle>
-      <HistoryItem />
+      {historyData.map((item, index) => (
+        <HistoryItem
+          key={index}
+          title={item.title}
+          progress={item.progress}
+          description={item.description}
+        />
+      ))}
     </Accordion>
   )
 }

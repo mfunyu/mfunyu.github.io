@@ -105,8 +105,13 @@ const TimelineUI = ({ minYear, maxYear, currentYear, onYearChange }: Props) => {
       {slideMarks}
       <Tooltip
         hasArrow
-        bg={useColorModeValue('blackAlpha.800', 'whiteAlpha.800')}
-        colorScheme={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
+        bg={useColorModeValue('gray.800', 'gray.200')}
+        color={useColorModeValue('white', 'gray.800')}
+        fontSize="sm"
+        fontWeight="medium"
+        px={3}
+        py={1.5}
+        borderRadius="md"
         placement="top"
         mb="5"
         isOpen={showTooltip}

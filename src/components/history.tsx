@@ -102,9 +102,16 @@ type HistoryProps = {
 }
 
 const History = ({ currentYear }: HistoryProps) => {
+  // Sort history items by start date (chronological order)
+  const sortedHistoryData = [...historyData].sort((a, b) => {
+    const aStartDecimal = a.startYear + (a.startMonth - 1) / 12
+    const bStartDecimal = b.startYear + (b.startMonth - 1) / 12
+    return aStartDecimal - bStartDecimal
+  })
+
   return (
     <Accordion allowToggle>
-      {historyData.map((item, index) => (
+      {sortedHistoryData.map((item, index) => (
         <HistoryItem
           key={index}
           title={item.title}

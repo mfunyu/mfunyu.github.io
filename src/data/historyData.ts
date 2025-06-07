@@ -2,8 +2,8 @@ export type HistoryData = {
   title: string
   startYear: number
   startMonth: number
-  endYear: number
-  endMonth: number
+  endYear?: number
+  endMonth?: number
   isCompleted: boolean
   description: string
 }
@@ -22,8 +22,6 @@ export const historyData: HistoryData[] = [
     title: '42Lyon',
     startYear: 2023,
     startMonth: 7,
-    endYear: 2025,
-    endMonth: 3,
     isCompleted: false,
     description: 'Currently pursuing studies at 42Lyon, a tuition-free computer programming school. Developing advanced skills in C/C++, system administration, and collaborative problem-solving through peer-to-peer learning methodology.'
   },

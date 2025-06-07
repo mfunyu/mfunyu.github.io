@@ -62,23 +62,34 @@ const calculateProgress = (
   currentYear: number,
   startYear: number,
   startMonth: number,
-  endYear: number,
-  endMonth: number,
-  isCompleted: boolean
+  endYear?: number,
+  endMonth?: number,
+  isCompleted?: boolean
 ): number => {
   // Convert dates to decimal years for easier calculation
   const currentDecimal = currentYear
   const startDecimal = startYear + (startMonth - 1) / 12
-  const endDecimal = endYear + (endMonth - 1) / 12
   
   if (currentDecimal < startDecimal) return 0
+  
+  // If no end date is specified (ongoing project)
+  if (!endYear || !endMonth) {
+    // Calculate years since start
+    const yearsSinceStart = currentDecimal - startDecimal
+    
+    // For ongoing projects, show progress based on time elapsed
+    // Cap at 80% to indicate it's still in progress
+    const progressBasedOnTime = Math.min(yearsSinceStart * 50, 90) // 25% per year, max 80%
+    return Math.round(progressBasedOnTime)
+  }
+  
+  const endDecimal = endYear + (endMonth - 1) / 12
   
   // For completed items, always show 100% if we're past the end date
   if (isCompleted && currentDecimal >= endDecimal) return 100
   
-  // For non-completed items, don't show 100% even if past end date
+  // For non-completed items with end dates, don't show 100% even if past end date
   if (!isCompleted && currentDecimal >= endDecimal) {
-    // Show high progress but not 100% to indicate it's still ongoing
     return 90
   }
   

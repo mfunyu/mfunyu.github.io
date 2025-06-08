@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Flex,
   Progress,
   Stack,
   Text,
@@ -39,11 +40,16 @@ const HistoryItem = ({ title, progress, description, isCompleted }: HistoryItemP
                 </Stack>
               </Box>
               <Box pb={4} flex="1" textAlign="left">
+                <Flex justify="space-between" align="center" mb={1}>
+                  <Box />
+                  <Text fontSize="xs" color="gray.500">{progress}%</Text>
+                </Flex>
                 <Progress 
                   size="xs" 
                   value={progress} 
                   isAnimated 
                   colorScheme={isCompleted ? "green" : "blue"}
+                  borderRadius="full"
                 />
               </Box>
             </Stack>

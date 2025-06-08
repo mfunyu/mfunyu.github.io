@@ -26,13 +26,47 @@ export const historyData: HistoryData[] = [
     description: 'Currently pursuing studies at 42Lyon, a tuition-free computer programming school. Developing advanced skills in C/C++, system administration, and collaborative problem-solving through peer-to-peer learning methodology.'
   },
   {
-    title: 'Internship',
+    title: 'Internship in Lyon, France',
     startYear: 2024,
     startMonth: 9,
     endYear: 2025,
     endMonth: 3,
     isCompleted: true,
     description: 'Gained practical experience in software development through various internship opportunities. Worked on real-world projects, collaborated with development teams, and applied theoretical knowledge to solve business challenges.'
+  },
+  {
+    title: 'Internship in Tokyo, Japan',
+    startYear: 2022,
+    startMonth: 8,
+    endYear: 2022,
+    endMonth: 10,
+    isCompleted: true,
+    description: 'Gained practical experience in software development through various internship opportunities. Worked on real-world projects, collaborated with development teams, and applied theoretical knowledge to solve business challenges.'
+  },
+  {
+    title: 'NYUAD',
+    startYear: 2020,
+    startMonth: 9,
+    endYear: 2021,
+    endMonth: 6,
+    isCompleted: false,
+    description: 'Studied for a Bachelor of Arts in Computer Science at NYU Abu Dhabi. Developing skills in software development, computer science, and problem-solving through a rigorous academic program.'
+  },
+  {
+    title: 'build@mercari',
+    startYear: 2022,
+    startMonth: 3,
+    endYear: 2022,
+    endMonth: 4,
+    isCompleted: true,
+    description: 'Worked on a project to build a new feature for the Mercari app. The project was a success and the feature was released to the app.'
+  },
+  {
+    title: 'Full-time job in Tokyo, Japan',
+    startYear: 2025,
+    startMonth: 4,
+    isCompleted: false,
+    description: 'Working as a software engineer at a startup in Tokyo. Developing a new feature for the app. The project was a success and the feature was released to the app.'
   }
 ]
 

@@ -14,7 +14,7 @@ const About = () => {
 
   return (
     <Layout>
-      <Flex>
+      <Flex direction="column" h="100vh">
         <Box w="100%" p={4}>
           <Flex px={10} py={8} w="100%">
             <Box flex="1">
@@ -27,7 +27,29 @@ const About = () => {
             </Box>
           </Flex>
           <Box px={10} flex="1">
-            <History currentYear={currentTimelineYear} />
+            <Box
+              h="60vh"
+              overflowY="auto"
+              overflowX="hidden"
+              pr={2}
+              sx={{
+                '&::-webkit-scrollbar': {
+                  width: '6px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: 'transparent',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: 'gray.300',
+                  borderRadius: '3px',
+                },
+                '&::-webkit-scrollbar-thumb:hover': {
+                  background: 'gray.400',
+                },
+              }}
+            >
+              <History currentYear={currentTimelineYear} />
+            </Box>
           </Box>
         </Box>
       </Flex>

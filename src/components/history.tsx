@@ -12,6 +12,7 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { useEffect, useRef } from 'react'
 import { historyData } from '../data/historyData'
 
 type HistoryItemProps = {
@@ -20,9 +21,10 @@ type HistoryItemProps = {
   description: string
   isCompleted: boolean
   isActive: boolean
+  itemRef?: React.RefObject<HTMLDivElement>
 }
 
-const HistoryItem = ({ title, progress, description, isCompleted, isActive }: HistoryItemProps) => {
+const HistoryItem = ({ title, progress, description, isCompleted, isActive, itemRef }: HistoryItemProps) => {
   const cardBg = useColorModeValue("white", "gray.800")
   const borderColor = useColorModeValue(
     isActive ? "gray.600" : "gray.200", 
@@ -39,7 +41,7 @@ const HistoryItem = ({ title, progress, description, isCompleted, isActive }: Hi
   const iconColor = useColorModeValue("gray.400", "gray.500")
 
   return (
-    <AccordionItem border="none" mb={3}>
+    <AccordionItem border="none" mb={3} ref={itemRef}>
       <Box
         bg={cardBg}
         border="1px solid"
@@ -169,6 +171,31 @@ const History = ({ currentYear }: HistoryProps) => {
     return aStartDecimal - bStartDecimal
   })
 
+  // Create refs for each history item
+  const itemRefs = useRef<(React.RefObject<HTMLDivElement>)[]>(
+    sortedHistoryData.map(() => useRef<HTMLDivElement>(null))
+  )
+
+  // Auto-scroll to active item
+  useEffect(() => {
+    const activeIndex = sortedHistoryData.findIndex((item) =>
+      isItemActive(
+        currentYear,
+        item.startYear,
+        item.startMonth,
+        item.endYear,
+        item.endMonth
+      )
+    )
+
+    if (activeIndex !== -1 && itemRefs.current[activeIndex]?.current) {
+      itemRefs.current[activeIndex].current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      })
+    }
+  }, [currentYear, sortedHistoryData])
+
   return (
     <Accordion allowToggle>
       {sortedHistoryData.map((item, index) => (
@@ -192,6 +219,7 @@ const History = ({ currentYear }: HistoryProps) => {
             item.endYear,
             item.endMonth
           )}
+          itemRef={itemRefs.current[index]}
         />
       ))}
     </Accordion>

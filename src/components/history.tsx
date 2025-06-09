@@ -89,8 +89,8 @@ const HistoryItem = ({ title, progress, description, isCompleted, isActive, item
           </Box>
           <AccordionIcon color={iconColor} />
         </AccordionButton>
-        <AccordionPanel px={4} pb={4} pt={0}>
-          <Text color={textColor} fontSize="sm" lineHeight="relaxed">
+        <AccordionPanel px={4} pb={4} pt={2}>
+          <Text color={textColor} fontSize="sm" lineHeight="relaxed" mt={2}>
             {description}
           </Text>
         </AccordionPanel>

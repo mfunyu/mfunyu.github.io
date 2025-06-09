@@ -1,8 +1,9 @@
-import { Box, Center, Flex, Heading } from '@chakra-ui/react'
+import { Box, Center, Flex } from '@chakra-ui/react'
 import { useState } from 'react'
 import History from '../../components/history'
 import Layout from '../../components/layout'
 import Timeline from '../../components/timeline'
+import { HEADER_HEIGHT } from '../../components/header'
 
 const About = () => {
   const startYear = 2019
@@ -14,42 +15,40 @@ const About = () => {
 
   return (
     <Layout>
-      <Flex direction="column" h="100vh">
-        <Box w="100%" p={4}>
-          <Flex px={10} py={8} w="100%">
-            <Box flex="1">
-              <Center>
-                <Timeline 
-                  currentYear={currentTimelineYear}
-                  onYearChange={setCurrentTimelineYear}
-                />
-              </Center>
-            </Box>
-          </Flex>
-          <Box px={10} flex="1">
-            <Box
-              h="60vh"
-              overflowY="auto"
-              overflowX="hidden"
-              pr={2}
-              sx={{
-                '&::-webkit-scrollbar': {
-                  width: '6px',
-                },
-                '&::-webkit-scrollbar-track': {
-                  background: 'transparent',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  background: 'gray.300',
-                  borderRadius: '3px',
-                },
-                '&::-webkit-scrollbar-thumb:hover': {
-                  background: 'gray.400',
-                },
-              }}
-            >
-              <History currentYear={currentTimelineYear} />
-            </Box>
+      <Flex direction="column" h="100vh" pt={HEADER_HEIGHT}>
+        {/* Timeline Section */}
+        <Box p={6} flexShrink={0}>
+          <Center>
+            <Timeline 
+              currentYear={currentTimelineYear}
+              onYearChange={setCurrentTimelineYear}
+            />
+          </Center>
+        </Box>
+
+        {/* History Section */}
+        <Box px={6} flex="1" minH={0}>
+          <Box
+            h="100%"
+            overflowY="auto"
+            pr={2}
+            sx={{
+              '&::-webkit-scrollbar': {
+                width: '6px',
+              },
+              '&::-webkit-scrollbar-track': {
+                background: 'transparent',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: 'gray.300',
+                borderRadius: '3px',
+              },
+              '&::-webkit-scrollbar-thumb:hover': {
+                background: 'gray.400',
+              },
+            }}
+          >
+            <History currentYear={currentTimelineYear} />
           </Box>
         </Box>
       </Flex>

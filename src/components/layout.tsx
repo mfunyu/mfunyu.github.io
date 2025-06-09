@@ -14,10 +14,8 @@ const Layout = ({ children }: Props) => {
         <title>mfunyu</title>
       </Head>
       <Header />
-      <Box as="main" w="full" maxW="100vw" mx="auto">
-        <Box maxW="100vw" mx="auto" minH="76vh" maxH="90vh">
-          {children}
-        </Box>
+      <Box as="main" w="full" h="100vh" overflow="hidden">
+        {children}
       </Box>
     </>
   )

@@ -10,6 +10,7 @@ import {
   Stack,
   Text,
   Badge,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { historyData } from '../data/historyData'
 
@@ -21,28 +22,50 @@ type HistoryItemProps = {
 }
 
 const HistoryItem = ({ title, progress, description, isCompleted }: HistoryItemProps) => {
+  const cardBg = useColorModeValue("white", "gray.800")
+  const borderColor = useColorModeValue("gray.200", "gray.600")
+  const hoverBorderColor = useColorModeValue("gray.300", "gray.500")
+  const hoverBg = useColorModeValue("gray.50", "gray.700")
+  const textColor = useColorModeValue("gray.600", "gray.300")
+  const percentageColor = useColorModeValue("gray.500", "gray.400")
+  const progressBg = useColorModeValue("gray.100", "gray.600")
+  const iconColor = useColorModeValue("gray.400", "gray.500")
+
   return (
-    <AccordionItem>
-      <h2>
-        <AccordionButton>
+    <AccordionItem border="none" mb={3}>
+      <Box
+        bg={cardBg}
+        border="1px solid"
+        borderColor={borderColor}
+        borderRadius="lg"
+        overflow="hidden"
+        _hover={{ borderColor: hoverBorderColor, shadow: "sm" }}
+        transition="all 0.2s"
+      >
+        <AccordionButton
+          p={4}
+          _hover={{ bg: hoverBg }}
+          _expanded={{ bg: hoverBg }}
+        >
           <Box flex="1" textAlign="left">
-            <Stack spacing={5}>
-              <Box flex="1" textAlign="left">
-                <Stack direction="row" spacing={2} align="center">
-                  <Text>{title}</Text>
-                  <Badge 
-                    colorScheme={isCompleted ? "green" : "blue"}
-                    variant="subtle"
-                    fontSize="xs"
-                  >
-                    {isCompleted ? "Completed" : "In Progress"}
-                  </Badge>
-                </Stack>
-              </Box>
-              <Box pb={4} flex="1" textAlign="left">
-                <Flex justify="space-between" align="center" mb={1}>
+            <Stack spacing={3}>
+              <Flex justify="space-between" align="center">
+                <Text fontSize="lg" fontWeight="medium">{title}</Text>
+                <Badge 
+                  colorScheme={isCompleted ? "green" : "blue"}
+                  variant="solid"
+                  fontSize="xs"
+                  px={2}
+                  py={1}
+                  borderRadius="full"
+                >
+                  {isCompleted ? "✓" : "•"}
+                </Badge>
+              </Flex>
+              <Box>
+                <Flex justify="space-between" align="center" mb={2}>
                   <Box />
-                  <Text fontSize="xs" color="gray.500">{progress}%</Text>
+                  <Text fontSize="xs" color={percentageColor} fontWeight="medium">{progress}%</Text>
                 </Flex>
                 <Progress 
                   size="xs" 
@@ -50,16 +73,19 @@ const HistoryItem = ({ title, progress, description, isCompleted }: HistoryItemP
                   isAnimated 
                   colorScheme={isCompleted ? "green" : "blue"}
                   borderRadius="full"
+                  bg={progressBg}
                 />
               </Box>
             </Stack>
           </Box>
-          <AccordionIcon />
+          <AccordionIcon color={iconColor} />
         </AccordionButton>
-      </h2>
-      <AccordionPanel pb={4}>
-        {description}
-      </AccordionPanel>
+        <AccordionPanel px={4} pb={4} pt={0}>
+          <Text color={textColor} fontSize="sm" lineHeight="relaxed">
+            {description}
+          </Text>
+        </AccordionPanel>
+      </Box>
     </AccordionItem>
   )
 }

@@ -19,12 +19,19 @@ type HistoryItemProps = {
   progress: number
   description: string
   isCompleted: boolean
+  isActive: boolean
 }
 
-const HistoryItem = ({ title, progress, description, isCompleted }: HistoryItemProps) => {
+const HistoryItem = ({ title, progress, description, isCompleted, isActive }: HistoryItemProps) => {
   const cardBg = useColorModeValue("white", "gray.800")
-  const borderColor = useColorModeValue("gray.200", "gray.600")
-  const hoverBorderColor = useColorModeValue("gray.300", "gray.500")
+  const borderColor = useColorModeValue(
+    isActive ? "gray.600" : "gray.200", 
+    isActive ? "gray.200" : "gray.600"
+  )
+  const hoverBorderColor = useColorModeValue(
+    isActive ? "gray.700" : "gray.300", 
+    isActive ? "gray.100" : "gray.500"
+  )
   const hoverBg = useColorModeValue("gray.50", "gray.700")
   const textColor = useColorModeValue("gray.600", "gray.300")
   const percentageColor = useColorModeValue("gray.500", "gray.400")
@@ -133,6 +140,27 @@ type HistoryProps = {
   currentYear: number
 }
 
+const isItemActive = (
+  currentYear: number,
+  startYear: number,
+  startMonth: number,
+  endYear?: number,
+  endMonth?: number
+): boolean => {
+  const currentDecimal = currentYear
+  const startDecimal = startYear + (startMonth - 1) / 12
+  
+  if (currentDecimal < startDecimal) return false
+  
+  // If no end date, item is active from start onwards
+  if (!endYear || !endMonth) {
+    return currentDecimal >= startDecimal
+  }
+  
+  const endDecimal = endYear + (endMonth - 1) / 12
+  return currentDecimal >= startDecimal && currentDecimal <= endDecimal
+}
+
 const History = ({ currentYear }: HistoryProps) => {
   // Sort history items by start date (chronological order)
   const sortedHistoryData = [...historyData].sort((a, b) => {
@@ -157,6 +185,13 @@ const History = ({ currentYear }: HistoryProps) => {
           )}
           description={item.description}
           isCompleted={item.isCompleted}
+          isActive={isItemActive(
+            currentYear,
+            item.startYear,
+            item.startMonth,
+            item.endYear,
+            item.endMonth
+          )}
         />
       ))}
     </Accordion>

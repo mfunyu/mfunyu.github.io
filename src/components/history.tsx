@@ -15,16 +15,39 @@ import {
 import { useEffect, useRef } from 'react'
 import { historyData } from '../data/historyData'
 
+const formatDateRange = (
+  startYear: number,
+  startMonth: number,
+  endYear?: number,
+  endMonth?: number
+): string => {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  
+  const startDate = `${months[startMonth - 1]} ${startYear}`
+  
+  if (!endYear || !endMonth) {
+    return `${startDate} - Present`
+  }
+  
+  const endDate = `${months[endMonth - 1]} ${endYear}`
+  return `${startDate} - ${endDate}`
+}
+
 type HistoryItemProps = {
   title: string
   progress: number
   description: string
   isCompleted: boolean
   isActive: boolean
+  startYear: number
+  startMonth: number
+  endYear?: number
+  endMonth?: number
   itemRef?: React.RefObject<HTMLDivElement>
 }
 
-const HistoryItem = ({ title, progress, description, isCompleted, isActive, itemRef }: HistoryItemProps) => {
+const HistoryItem = ({ title, progress, description, isCompleted, isActive, startYear, startMonth, endYear, endMonth, itemRef }: HistoryItemProps) => {
   const cardBg = useColorModeValue("white", "gray.800")
   const borderColor = useColorModeValue(
     isActive ? "gray.600" : "gray.200", 
@@ -59,7 +82,12 @@ const HistoryItem = ({ title, progress, description, isCompleted, isActive, item
           <Box flex="1" textAlign="left">
             <Stack spacing={3}>
               <Flex justify="space-between" align="center">
-                <Text fontSize="lg" fontWeight="medium">{title}</Text>
+                <Box>
+                  <Text fontSize="lg" fontWeight="medium">{title}</Text>
+                  <Text fontSize="xs" color={textColor} mt={1}>
+                    {formatDateRange(startYear, startMonth, endYear, endMonth)}
+                  </Text>
+                </Box>
                 <Badge 
                   colorScheme={isCompleted ? "green" : "blue"}
                   variant="solid"
@@ -219,6 +247,10 @@ const History = ({ currentYear }: HistoryProps) => {
             item.endYear,
             item.endMonth
           )}
+          startYear={item.startYear}
+          startMonth={item.startMonth}
+          endYear={item.endYear}
+          endMonth={item.endMonth}
           itemRef={itemRefs.current[index]}
         />
       ))}

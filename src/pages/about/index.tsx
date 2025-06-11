@@ -27,29 +27,27 @@ const About = () => {
         </Box>
 
         {/* History Section */}
-        <Box px={6} flex="1" minH={0}>
-          <Box
-            h="100%"
-            overflowY="auto"
-            pr={2}
-            sx={{
-              '&::-webkit-scrollbar': {
-                width: '6px',
-              },
-              '&::-webkit-scrollbar-track': {
-                background: 'transparent',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                background: 'gray.300',
-                borderRadius: '3px',
-              },
-              '&::-webkit-scrollbar-thumb:hover': {
-                background: 'gray.400',
-              },
-            }}
-          >
-            <History currentYear={currentTimelineYear} />
-          </Box>
+        <Box 
+          px={6} 
+          flex="1" 
+          minH={0}
+          sx={{
+            '&::-webkit-scrollbar': {
+              width: '6px',
+            },
+            '&::-webkit-scrollbar-track': {
+              background: 'transparent',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: 'gray.300',
+              borderRadius: '3px',
+            },
+            '&::-webkit-scrollbar-thumb:hover': {
+              background: 'gray.400',
+            },
+          }}
+        >
+          <History currentYear={currentTimelineYear} />
         </Box>
       </Flex>
     </Layout>

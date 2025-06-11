@@ -219,59 +219,90 @@ const History = ({ currentYear }: HistoryProps) => {
   const itemRefs = useRef<(React.RefObject<HTMLDivElement>)[]>(
     sortedHistoryData.map(() => useRef<HTMLDivElement>(null))
   )
+  
+  // Container ref to check visibility
+  const containerRef = useRef<HTMLDivElement>(null)
 
-  // Auto-scroll to active item
-  useEffect(() => {
-    const activeIndex = sortedHistoryData.findIndex((item) =>
-      isItemActive(
-        currentYear,
-        item.startYear,
-        item.startMonth,
-        item.endYear,
-        item.endMonth
-      )
+  // Helper function to check if an element is visible in the viewport
+  const isElementVisible = (element: HTMLElement, container: HTMLElement): boolean => {
+    const elementRect = element.getBoundingClientRect()
+    const containerRect = container.getBoundingClientRect()
+    
+    // Check if the element is within the visible area of the container
+    return (
+      elementRect.top >= containerRect.top &&
+      elementRect.bottom <= containerRect.bottom
     )
+  }
 
-    if (activeIndex !== -1 && itemRefs.current[activeIndex]?.current) {
-      itemRefs.current[activeIndex].current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
-    }
+  // Auto-scroll to active item only if not visible
+  useEffect(() => {
+    // Wait a bit to ensure refs are properly attached
+    const timer = setTimeout(() => {
+      const activeIndex = sortedHistoryData.findIndex((item) =>
+        isItemActive(
+          currentYear,
+          item.startYear,
+          item.startMonth,
+          item.endYear,
+          item.endMonth
+        )
+      )
+
+      if (activeIndex !== -1 && 
+          itemRefs.current[activeIndex]?.current && 
+          containerRef.current) {
+        
+        const activeElement = itemRefs.current[activeIndex].current
+        const containerElement = containerRef.current
+        
+        // Only scroll if the element is not already visible
+        if (!isElementVisible(activeElement, containerElement)) {
+          activeElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          })
+        }
+      }
+    }, 100)
+    
+    return () => clearTimeout(timer)
   }, [currentYear, sortedHistoryData])
 
   return (
-    <Accordion allowToggle>
-      {sortedHistoryData.map((item, index) => (
-        <HistoryItem
-          key={index}
-          title={item.title}
-          progress={calculateProgress(
-            currentYear,
-            item.startYear,
-            item.startMonth,
-            item.endYear,
-            item.endMonth,
-            item.isCompleted
-          )}
-          description={item.description}
-          isCompleted={item.isCompleted}
-          isActive={isItemActive(
-            currentYear,
-            item.startYear,
-            item.startMonth,
-            item.endYear,
-            item.endMonth
-          )}
-          startYear={item.startYear}
-          startMonth={item.startMonth}
-          endYear={item.endYear}
-          endMonth={item.endMonth}
-          location={item.location}
-          itemRef={itemRefs.current[index]}
-        />
-      ))}
-    </Accordion>
+    <Box ref={containerRef} h="100%" overflowY="auto">
+      <Accordion allowToggle>
+        {sortedHistoryData.map((item, index) => (
+          <HistoryItem
+            key={index}
+            title={item.title}
+            progress={calculateProgress(
+              currentYear,
+              item.startYear,
+              item.startMonth,
+              item.endYear,
+              item.endMonth,
+              item.isCompleted
+            )}
+            description={item.description}
+            isCompleted={item.isCompleted}
+            isActive={isItemActive(
+              currentYear,
+              item.startYear,
+              item.startMonth,
+              item.endYear,
+              item.endMonth
+            )}
+            startYear={item.startYear}
+            startMonth={item.startMonth}
+            endYear={item.endYear}
+            endMonth={item.endMonth}
+            location={item.location}
+            itemRef={itemRefs.current[index]}
+          />
+        ))}
+      </Accordion>
+    </Box>
   )
 }
 

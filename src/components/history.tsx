@@ -192,11 +192,11 @@ const isItemActive = (
 }
 
 const History = ({ currentYear }: HistoryProps) => {
-  // Sort history items by start date (chronological order)
+  // Sort history items by start date (descending order)
   const sortedHistoryData = [...historyData].sort((a, b) => {
     const aStartDecimal = a.startYear + (a.startMonth - 1) / 12
     const bStartDecimal = b.startYear + (b.startMonth - 1) / 12
-    return aStartDecimal - bStartDecimal
+    return bStartDecimal - aStartDecimal
   })
 
   // Create refs for each history item
@@ -219,7 +219,7 @@ const History = ({ currentYear }: HistoryProps) => {
     if (activeIndex !== -1 && itemRefs.current[activeIndex]?.current) {
       itemRefs.current[activeIndex].current?.scrollIntoView({
         behavior: 'smooth',
-        block: 'center',
+        block: 'start',
       })
     }
   }, [currentYear, sortedHistoryData])

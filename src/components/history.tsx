@@ -13,7 +13,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { useEffect, useRef } from 'react'
-import { historyData } from '../data/historyData'
+import { historyData, Status } from '../data/historyData'
 
 const formatDateRange = (
   startYear: number,
@@ -38,17 +38,29 @@ type HistoryItemProps = {
   title: string
   progress: number
   description: string
-  isCompleted: boolean
   isActive: boolean
   startYear: number
   startMonth: number
   endYear?: number
   endMonth?: number
   location: string
+  status: Status
   itemRef?: React.RefObject<HTMLDivElement>
 }
 
-const HistoryItem = ({ title, progress, description, isCompleted, isActive, startYear, startMonth, endYear, endMonth, location, itemRef }: HistoryItemProps) => {
+const HistoryItem = ({ 
+  title, 
+  progress, 
+  description, 
+  isActive, 
+  startYear, 
+  startMonth, 
+  endYear, 
+  endMonth, 
+  location, 
+  status,
+  itemRef 
+}: HistoryItemProps) => {
   const cardBg = useColorModeValue("white", "gray.800")
   const borderColor = useColorModeValue(
     isActive ? "gray.600" : "gray.200", 
@@ -65,6 +77,22 @@ const HistoryItem = ({ title, progress, description, isCompleted, isActive, star
   const iconColor = useColorModeValue("gray.400", "gray.500")
   const locationBgColor = useColorModeValue("gray.100", "gray.700")
   const locationColor = useColorModeValue("gray.600", "gray.300")
+
+  // Set status badge color and text
+  const getStatusInfo = (status: Status) => {
+    switch (status) {
+      case Status.COMPLETED:
+        return { colorScheme: 'green', icon: '✓' };
+      case Status.IN_PROGRESS:
+        return { colorScheme: 'blue', icon: '→' };
+      case Status.UNFINISHED:
+        return { colorScheme: 'gray', icon: '️-' };
+      default:
+        return { colorScheme: 'blue', icon: '•' };
+    }
+  }
+
+  const statusInfo = getStatusInfo(status);
 
   return (
     <AccordionItem border="none" mb={3} ref={itemRef}>
@@ -105,26 +133,28 @@ const HistoryItem = ({ title, progress, description, isCompleted, isActive, star
                   </Flex>
                 </Box>
                 <Badge 
-                  colorScheme={isCompleted ? "green" : "blue"}
+                  colorScheme={statusInfo.colorScheme}
                   variant="solid"
                   fontSize="xs"
                   px={2}
                   py={1}
                   borderRadius="full"
                 >
-                  {isCompleted ? "✓" : "•"}
+                  {statusInfo.icon}
                 </Badge>
               </Flex>
               <Box>
                 <Flex justify="space-between" align="center" mb={2}>
                   <Box />
-                  <Text fontSize="xs" color={percentageColor} fontWeight="medium">{progress}%</Text>
+                  <Text fontSize="xs" color={percentageColor} fontWeight="medium">
+                    {progress}%
+                  </Text>
                 </Flex>
                 <Progress 
                   size="xs" 
                   value={progress} 
                   isAnimated 
-                  colorScheme={isCompleted ? "green" : "blue"}
+                  colorScheme={statusInfo.colorScheme}
                   borderRadius="full"
                   bg={progressBg}
                 />
@@ -147,9 +177,9 @@ const calculateProgress = (
   currentYear: number,
   startYear: number,
   startMonth: number,
+  status: Status,
   endYear?: number,
-  endMonth?: number,
-  isCompleted?: boolean
+  endMonth?: number
 ): number => {
   // Convert dates to decimal years for easier calculation
   const currentDecimal = currentYear
@@ -162,24 +192,44 @@ const calculateProgress = (
     // Calculate years since start
     const yearsSinceStart = currentDecimal - startDecimal
     
-    // For ongoing projects, show progress based on time elapsed
-    // Cap at 80% to indicate it's still in progress
-    const progressBasedOnTime = Math.min(yearsSinceStart * 50, 90) // 25% per year, max 80%
+    // For in-progress projects, show progress based on time elapsed
+    // Cap at 90% to indicate it's still in progress
+    const progressBasedOnTime = Math.min(yearsSinceStart * 50, 90) // 50% per year, max 90%
     return Math.round(progressBasedOnTime)
   }
   
   const endDecimal = endYear + (endMonth - 1) / 12
   
   // For completed items, always show 100% if we're past the end date
-  if (isCompleted && currentDecimal >= endDecimal) return 100
-  
-  // For non-completed items with end dates, don't show 100% even if past end date
-  if (!isCompleted && currentDecimal >= endDecimal) {
-    return 90
+  if (status === Status.COMPLETED && currentDecimal >= endDecimal) return 100
+
+  // For unfinished items with end dates
+  if (status === Status.UNFINISHED) {
+    // If we're past the end date, show 80% (abandoned before completion)
+    if (currentDecimal >= endDecimal) {
+      return 80;
+    }
+    
+    // Otherwise calculate progress based on time, capped at 80%
+    const progress = ((currentDecimal - startDecimal) / (endDecimal - startDecimal)) * 80
+    return Math.round(progress)
   }
   
+  // For in-progress items with end dates
+  if (status === Status.IN_PROGRESS) {
+    // If we're past the end date, show 90% (still not complete)
+    if (currentDecimal >= endDecimal) {
+      return 90;
+    }
+    
+    // Otherwise calculate progress based on time
+    const progress = ((currentDecimal - startDecimal) / (endDecimal - startDecimal)) * 90
+    return Math.round(progress)
+  }
+  
+  // For other items with end dates
   const progress = ((currentDecimal - startDecimal) / (endDecimal - startDecimal)) * 100
-  return Math.round(progress)
+  return Math.min(Math.round(progress), 100)
 }
 
 type HistoryProps = {
@@ -280,12 +330,11 @@ const History = ({ currentYear }: HistoryProps) => {
               currentYear,
               item.startYear,
               item.startMonth,
+              item.status,
               item.endYear,
-              item.endMonth,
-              item.isCompleted
+              item.endMonth
             )}
             description={item.description}
-            isCompleted={item.isCompleted}
             isActive={isItemActive(
               currentYear,
               item.startYear,
@@ -298,6 +347,7 @@ const History = ({ currentYear }: HistoryProps) => {
             endYear={item.endYear}
             endMonth={item.endMonth}
             location={item.location}
+            status={item.status}
             itemRef={itemRefs.current[index]}
           />
         ))}

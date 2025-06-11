@@ -1,10 +1,16 @@
+export enum Status {
+  COMPLETED = 'completed',
+  IN_PROGRESS = 'in-progress',
+  UNFINISHED = 'unfinished'
+}
+
 export type HistoryData = {
   title: string
   startYear: number
   startMonth: number
   endYear?: number
   endMonth?: number
-  isCompleted: boolean
+  status: Status
   description: string
   location: string
 }
@@ -16,7 +22,7 @@ export const historyData: HistoryData[] = [
     startMonth: 9,
     endYear: 2019,
     endMonth: 6,
-    isCompleted: true,
+    status: Status.COMPLETED,
     description: 'Studied at UWC Canada, a global boarding school. Developed a strong foundation in computer science and programming through a rigorous academic program.',
     location: 'Victoria, Canada'
   },
@@ -26,7 +32,7 @@ export const historyData: HistoryData[] = [
     startMonth: 6,
     endYear: 2020,
     endMonth: 6,
-    isCompleted: true,
+    status: Status.COMPLETED,
     description: 'Took a gap year to travel and explore the world.',
     location: 'Japan / Western Europe'
   },
@@ -36,7 +42,7 @@ export const historyData: HistoryData[] = [
     startMonth: 6,
     endYear: 2023,
     endMonth: 6,
-    isCompleted: true,
+    status: Status.COMPLETED,
     description: 'Completed comprehensive software engineering education at 42Tokyo through hands-on project-based learning. Mastered C programming, Unix systems, algorithms, and data structures. Developed problem-solving skills through peer-to-peer collaboration and self-directed learning in a gamified environment.',
     location: 'Tokyo, Japan'
   },
@@ -44,7 +50,7 @@ export const historyData: HistoryData[] = [
     title: '42Lyon',
     startYear: 2023,
     startMonth: 7,
-    isCompleted: false,
+    status: Status.IN_PROGRESS,
     description: 'Currently pursuing studies at 42Lyon, a tuition-free computer programming school. Developing advanced skills in C/C++, system administration, and collaborative problem-solving through peer-to-peer learning methodology.',
     location: 'Lyon, France'
   },
@@ -54,7 +60,7 @@ export const historyData: HistoryData[] = [
     startMonth: 9,
     endYear: 2025,
     endMonth: 3,
-    isCompleted: true,
+    status: Status.COMPLETED,
     description: 'Gained practical experience in software development through various internship opportunities. Worked on real-world projects, collaborated with development teams, and applied theoretical knowledge to solve business challenges.',
     location: 'Lyon, France'
   },
@@ -64,7 +70,7 @@ export const historyData: HistoryData[] = [
     startMonth: 8,
     endYear: 2022,
     endMonth: 10,
-    isCompleted: true,
+    status: Status.COMPLETED,
     description: 'Gained practical experience in software development through various internship opportunities. Worked on real-world projects, collaborated with development teams, and applied theoretical knowledge to solve business challenges.',
     location: 'Tokyo, Japan'
   },
@@ -74,7 +80,7 @@ export const historyData: HistoryData[] = [
     startMonth: 9,
     endYear: 2021,
     endMonth: 6,
-    isCompleted: false,
+    status: Status.UNFINISHED,
     description: 'Studied for a Bachelor of Arts in Computer Science at NYU Abu Dhabi. Developing skills in software development, computer science, and problem-solving through a rigorous academic program.',
     location: 'Abu Dhabi, UAE'
   },
@@ -84,7 +90,7 @@ export const historyData: HistoryData[] = [
     startMonth: 3,
     endYear: 2022,
     endMonth: 4,
-    isCompleted: true,
+    status: Status.COMPLETED,
     description: 'Worked on a project to build a new feature for the Mercari app. The project was a success and the feature was released to the app.',
     location: 'Tokyo, Japan'
   },
@@ -92,7 +98,7 @@ export const historyData: HistoryData[] = [
     title: 'Full-time job in Tokyo, Japan',
     startYear: 2025,
     startMonth: 4,
-    isCompleted: false,
+    status: Status.IN_PROGRESS,
     description: 'Working as a software engineer at a startup in Tokyo. Developing a new feature for the app. The project was a success and the feature was released to the app.',
     location: 'Tokyo, Japan'
   }

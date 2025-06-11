@@ -11,6 +11,26 @@ export type HistoryData = {
 
 export const historyData: HistoryData[] = [
   {
+    title: 'Pearson College UWC',
+    startYear: 2017,
+    startMonth: 9,
+    endYear: 2019,
+    endMonth: 6,
+    isCompleted: true,
+    description: 'Studied at UWC Canada, a global boarding school. Developed a strong foundation in computer science and programming through a rigorous academic program.',
+    location: 'Victoria, Canada'
+  },
+  {
+    title: 'Gap Year',
+    startYear: 2019,
+    startMonth: 6,
+    endYear: 2020,
+    endMonth: 6,
+    isCompleted: true,
+    description: 'Took a gap year to travel and explore the world.',
+    location: 'Japan / Western Europe'
+  },
+  {
     title: '42Tokyo',
     startYear: 2020,
     startMonth: 6,

@@ -44,10 +44,11 @@ type HistoryItemProps = {
   startMonth: number
   endYear?: number
   endMonth?: number
+  location: string
   itemRef?: React.RefObject<HTMLDivElement>
 }
 
-const HistoryItem = ({ title, progress, description, isCompleted, isActive, startYear, startMonth, endYear, endMonth, itemRef }: HistoryItemProps) => {
+const HistoryItem = ({ title, progress, description, isCompleted, isActive, startYear, startMonth, endYear, endMonth, location, itemRef }: HistoryItemProps) => {
   const cardBg = useColorModeValue("white", "gray.800")
   const borderColor = useColorModeValue(
     isActive ? "gray.600" : "gray.200", 
@@ -62,6 +63,8 @@ const HistoryItem = ({ title, progress, description, isCompleted, isActive, star
   const percentageColor = useColorModeValue("gray.500", "gray.400")
   const progressBg = useColorModeValue("gray.100", "gray.600")
   const iconColor = useColorModeValue("gray.400", "gray.500")
+  const locationBgColor = useColorModeValue("gray.100", "gray.700")
+  const locationColor = useColorModeValue("gray.600", "gray.300")
 
   return (
     <AccordionItem border="none" mb={3} ref={itemRef}>
@@ -84,9 +87,22 @@ const HistoryItem = ({ title, progress, description, isCompleted, isActive, star
               <Flex justify="space-between" align="center">
                 <Box>
                   <Text fontSize="lg" fontWeight="medium">{title}</Text>
-                  <Text fontSize="xs" color={textColor} mt={1}>
-                    {formatDateRange(startYear, startMonth, endYear, endMonth)}
-                  </Text>
+                  <Flex align="center" mt={1}>
+                    <Text fontSize="xs" color={textColor}>
+                      {formatDateRange(startYear, startMonth, endYear, endMonth)}
+                    </Text>
+                    <Badge
+                      ml={2}
+                      px={2}
+                      py={0.5}
+                      fontSize="xs"
+                      bg={locationBgColor}
+                      color={locationColor}
+                      borderRadius="full"
+                    >
+                      {location}
+                    </Badge>
+                  </Flex>
                 </Box>
                 <Badge 
                   colorScheme={isCompleted ? "green" : "blue"}
@@ -251,6 +267,7 @@ const History = ({ currentYear }: HistoryProps) => {
           startMonth={item.startMonth}
           endYear={item.endYear}
           endMonth={item.endMonth}
+          location={item.location}
           itemRef={itemRefs.current[index]}
         />
       ))}

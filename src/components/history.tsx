@@ -12,7 +12,7 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { historyData, Status } from '../data/historyData'
 
 const formatDateRange = (
@@ -266,9 +266,12 @@ const History = ({ currentYear }: HistoryProps) => {
   })
 
   // Create refs for each history item
-  const itemRefs = useRef<(React.RefObject<HTMLDivElement>)[]>(
-    sortedHistoryData.map(() => useRef<HTMLDivElement>(null))
-  )
+  const itemRefs = useRef<React.RefObject<HTMLDivElement>[]>([])
+  
+  // Initialize refs array if needed
+  if (itemRefs.current.length !== sortedHistoryData.length) {
+    itemRefs.current = sortedHistoryData.map(() => React.createRef<HTMLDivElement>())
+  }
   
   // Container ref to check visibility
   const containerRef = useRef<HTMLDivElement>(null)

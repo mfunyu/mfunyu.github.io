@@ -12,7 +12,7 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useMemo } from 'react'
 import { historyData, Status } from '../data/historyData'
 
 const formatDateRange = (
@@ -258,12 +258,14 @@ const isItemActive = (
 }
 
 const History = ({ currentYear }: HistoryProps) => {
-  // Sort history items by start date (descending order)
-  const sortedHistoryData = [...historyData].sort((a, b) => {
-    const aStartDecimal = a.startYear + (a.startMonth - 1) / 12
-    const bStartDecimal = b.startYear + (b.startMonth - 1) / 12
-    return bStartDecimal - aStartDecimal
-  })
+  // Sort history items by start date (descending order) - memoized to prevent unnecessary re-renders
+  const sortedHistoryData = useMemo(() => {
+    return [...historyData].sort((a, b) => {
+      const aStartDecimal = a.startYear + (a.startMonth - 1) / 12
+      const bStartDecimal = b.startYear + (b.startMonth - 1) / 12
+      return bStartDecimal - aStartDecimal
+    })
+  }, []) // Empty dependency array since historyData is static
 
   // Create refs for each history item
   const itemRefs = useRef<React.RefObject<HTMLDivElement>[]>([])
@@ -320,7 +322,7 @@ const History = ({ currentYear }: HistoryProps) => {
     }, 100)
     
     return () => clearTimeout(timer)
-  }, [currentYear, sortedHistoryData])
+  }, [currentYear]) // Removed sortedHistoryData since it's now memoized and stable
 
   return (
     <Box ref={containerRef} h="100%" overflowY="auto">

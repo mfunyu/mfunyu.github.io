@@ -6,7 +6,6 @@ import Timeline from '../../components/timeline'
 import { HEADER_HEIGHT } from '../../components/header'
 
 const About = () => {
-  const startYear = 2019
   const currentYear = new Date().getFullYear()
   const currentMonth = new Date().getMonth()
   const maxYear = currentYear + (1 / 12) * currentMonth

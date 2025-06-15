@@ -15,9 +15,21 @@ const About = () => {
 
   return (
     <Layout>
-      <Flex direction="column" h="100vh" pt={HEADER_HEIGHT}>
+      <Center>
+        <Flex 
+          direction="column" 
+          h="100vh" 
+          pt={HEADER_HEIGHT}
+          maxW="1200px"
+          w="100%"
+        >
         {/* Timeline Section */}
-        <Box p={6} flexShrink={0}>
+        <Box 
+          px="clamp(1rem, 8vw, 6rem)"
+          py="clamp(1rem, 5vh, 3rem)"
+          minH="fit-content"
+          flexShrink={0}
+        >
           <Center>
             <Timeline 
               currentYear={currentTimelineYear}
@@ -28,9 +40,11 @@ const About = () => {
 
         {/* History Section */}
         <Box 
-          px={6} 
-          flex="1" 
+          px="clamp(1rem, 8vw, 6rem)"
+          pb="clamp(1rem, 5vh, 3rem)"
+          flex="1"
           minH={0}
+          overflowY="auto"
           sx={{
             '&::-webkit-scrollbar': {
               width: '6px',
@@ -49,7 +63,8 @@ const About = () => {
         >
           <History currentYear={currentTimelineYear} />
         </Box>
-      </Flex>
+        </Flex>
+      </Center>
     </Layout>
   )
 }

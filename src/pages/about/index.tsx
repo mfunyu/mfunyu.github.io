@@ -1,25 +1,69 @@
-import { Box, Center, Flex, Heading } from '@chakra-ui/react'
+import { Box, Center, Flex } from '@chakra-ui/react'
+import { useState } from 'react'
 import History from '../../components/history'
 import Layout from '../../components/layout'
 import Timeline from '../../components/timeline'
+import { HEADER_HEIGHT } from '../../components/header'
 
 const About = () => {
+  const currentYear = new Date().getFullYear()
+  const currentMonth = new Date().getMonth()
+  const maxYear = currentYear + (1 / 12) * currentMonth
+  
+  const [currentTimelineYear, setCurrentTimelineYear] = useState(maxYear)
+
   return (
     <Layout>
-      <Flex>
-        <Box w="100%" p={4}>
-          <Flex px={10} py={8} w="100%">
-            <Box flex="1">
-              <Center>
-                <Timeline />
-              </Center>
-            </Box>
-          </Flex>
-          <Box px={10} flex="1">
-            <History />
-          </Box>
+      <Center>
+        <Flex 
+          direction="column" 
+          h="100vh" 
+          pt={HEADER_HEIGHT}
+          maxW="1200px"
+          w="100%"
+        >
+        {/* Timeline Section */}
+        <Box 
+          px="clamp(1rem, 8vw, 6rem)"
+          py="clamp(1rem, 5vh, 3rem)"
+          minH="fit-content"
+          flexShrink={0}
+        >
+          <Center>
+            <Timeline 
+              currentYear={currentTimelineYear}
+              onYearChange={setCurrentTimelineYear}
+            />
+          </Center>
         </Box>
-      </Flex>
+
+        {/* History Section */}
+        <Box 
+          px="clamp(1rem, 8vw, 6rem)"
+          pb="clamp(1rem, 5vh, 3rem)"
+          flex="1"
+          minH={0}
+          overflowY="auto"
+          sx={{
+            '&::-webkit-scrollbar': {
+              width: '6px',
+            },
+            '&::-webkit-scrollbar-track': {
+              background: 'transparent',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: 'gray.300',
+              borderRadius: '3px',
+            },
+            '&::-webkit-scrollbar-thumb:hover': {
+              background: 'gray.400',
+            },
+          }}
+        >
+          <History currentYear={currentTimelineYear} />
+        </Box>
+        </Flex>
+      </Center>
     </Layout>
   )
 }

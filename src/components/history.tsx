@@ -310,7 +310,7 @@ const History = ({ currentYear }: HistoryProps) => {
         const containerElement = containerRef.current
         
         // Only scroll if the element is not already visible
-        if (!isElementVisible(activeElement, containerElement)) {
+        if (activeElement && containerElement && !isElementVisible(activeElement, containerElement)) {
           activeElement.scrollIntoView({
             behavior: 'smooth',
             block: 'start',
